@@ -7,9 +7,7 @@ tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
 DATABASEURI = "postgresql://sks2200:Databases2016**@w4111vm.eastus.cloudapp.azure.com/w4111"
-
 engine = create_engine(DATABASEURI)
-
 engine.execute("""CREATE TABLE IF NOT EXISTS test (
   id serial,
   name text
@@ -48,11 +46,11 @@ def teardown_request(exception):
 def index():
   return render_template("index.html")
 
-@app.route('/showSignUp')
+@app.route('/SignUp')
 def showSignUp():
     return render_template('signup.html')
 
-@app.route('/showSignIn')
+@app.route('/SignIn')
 def showSignIn():
     return render_template('signin.html')
 
