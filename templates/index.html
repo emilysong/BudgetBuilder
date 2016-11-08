@@ -2,7 +2,7 @@
 <html lang="en">
  
 <head>
-    <title>BudgetBuilder</title>
+    <title>{% block title %}BudgetBuilder{% endblock %}</title>
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
 </head>
@@ -10,18 +10,12 @@
 <body>
     <div class="container">
         <div class="header">
-            <nav>
-                <ul class="nav nav-pills pull-right">
-                    <li role="presentation" class="active"><a href="#">Home</a>
-                    </li>
-                    <li role="presentation"><a href="showSignIn">Sign In</a>
-                    </li>
-                    <li role="presentation"><a href="showSignUp">Sign Up</a>
-                    </li>
-                </ul>
-            </nav>
-            <h3 class="text-muted">BudgetBuilder</h3>
+            {% include "nav.html" %}
         </div>
+    </div>
+    <div class="content">
+      {% block content %}
+      {% endblock %}
     </div>
 </body>
  
