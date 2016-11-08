@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+.Python
+bin/
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+include/
+lib/
+lib64/
+parts/
+sdist/
+var/
+
+pip-selfcheck.json
+
