@@ -67,7 +67,7 @@
                     <td>{{purchases_dict['Industry']}}</td>
                     <td>{{purchases_dict['Category']}}</td>
                     <td>{{purchases_dict['Item']}}</td>
-                    <td>Delete</td>
+                    <td><a href="{{ url_for('deletePurchase', pid=purchases_dict['pid']) }}">Delete</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -89,7 +89,7 @@
                     <td>{{budgets_dict['Amount']}}</td>
                     <td>{{budgets_dict['Duration']}}</td>
                     <td>{{budgets_dict['Category']}}</td>
-                    <td>Delete</td>
+                    <td><a href="{{ url_for('deleteBudget', bud_id=budgets_dict['bud_id']) }}">Delete</a></td>
                 </tr>
                 {% endfor %}
             </table>
