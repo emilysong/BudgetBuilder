@@ -1,12 +1,11 @@
 import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect, Response
-
-from flask_wtf import Form
+from flask import Flask, request, render_template, g, redirect, Response, flash
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
+app.secret_key = 'this_is_a_secret'
 
 DATABASEURI = "postgresql://sks2200:Databases2016**@w4111vm.eastus.cloudapp.azure.com/w4111"
 engine = create_engine(DATABASEURI)
@@ -50,18 +49,25 @@ def showSignUp():
 def showSignIn():
     return render_template('signin.html')
 
+@app.route('/')
+
 @app.route('/validateLogin',methods=['POST'])
 def validateLogin():
-    print 'hi'
-    form = RequestForm(request.form)
-    print(form.username.data)
-    print(form.password.data)
-
-    # result = engine.execute("""SELECT * FROM USERS WHERE username="""+_username+""" AND password="""+_password+""";""");
-    # print result
-    # if(len(result[0]) > 0):
-    #   
-    return redirect('/SignIn')
+    _username = request.form["username"]
+    _password = request.form["password"]
+    cursor = g.conn.execute("select password from users where username='"+_username+"';")
+    for result in cursor:
+      if (_password == result['password']):
+        flash("Logged in successfully!", category='success')
+        cursor.close()
+        return redirect('/')
+      else:
+        flash("Wrong username or password!", category='error')
+        cursor.close()
+        return redirect('/SignIn')
+    flash("Username not found!", category='error')
+    cursor.close()
+    return redirect('/SignUp')
 
 if __name__ == "__main__":
   import click

@@ -4,16 +4,21 @@
 
 {% block content %}
     <div class="col-lg-4 col-lg-offset-4 text-center">
-        <form class="form-signin" action="/validateLogin" method="post">
+        
+        <form class="form-signin" action="/validateLogin" method="POST">
             
-            <label for="inputUsername" class="sr-only">Username</label>
-            <input type="username" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+            <label class="sr-only">Username</label>
+            <input type="username" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
            
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <label class="sr-only">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
             <br> 
             <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit" value="validateLogin">Sign in</button>
     
         </form>
+
     </div>
+
+
+
 {% endblock %}
