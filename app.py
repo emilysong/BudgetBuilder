@@ -40,7 +40,66 @@ def teardown_request(exception):
 @app.route('/')
 def index():
   if 'username' in session:
-    return render_template('/userIndex.html')
+    #incomes
+    cursor1 = g.conn.execute("select uuid from users where username='"+session['username']+"';")
+    for result1 in cursor1:
+      uuid = result1['uuid']
+    iids = []
+    cursor2 = g.conn.execute("select iid from earns where uuid='"+str(uuid)+"';")
+    for result2 in cursor2:
+      iids.append(result2['iid'])
+    incomes_list = []
+    for iid in iids:
+      cursor3 = g.conn.execute("select * from incomes_activities_earned_by where iid='"+str(iid)+"';")
+      for result3 in cursor3:
+        result_dict = {
+        'Sum': result3['sum'],
+        'Date': result3['date'],
+        'Sector': result3['sector'],
+        'Description': result3['description']
+        }
+        incomes_list.append(result_dict) 
+    
+    #purchases
+    cursor4 = g.conn.execute("select uuid from users where username='"+session['username']+"';")
+    for result4 in cursor4:
+      uuid = result4['uuid']
+    pids = []
+    cursor5 = g.conn.execute("select pid from makes where uuid='"+str(uuid)+"';")
+    for result5 in cursor5:
+      pids.append(result5['pid'])
+    purchases_list = []
+    for pid in pids:
+      cursor6 = g.conn.execute("select * from purchases_businesses_made_from where pid='"+str(pid)+"';")
+      for result6 in cursor6:
+        result_dict = {
+        'Price': result6['price'],
+        'Date': result6['date'],
+        'Name': result6['name'],
+        'Phone_Number': result6['phone_number'],
+        'Address': result6['address'],
+        'Industry': result6['industry'],
+        'Category': result6['category'],
+        'Item': result6['item']
+        }
+        purchases_list.append(result_dict) 
+
+    #budgets
+    cursor7 = g.conn.execute("select uuid from users where username='"+session['username']+"';")
+    for result7 in cursor7:
+      uuid = result7['uuid']
+    budgets_list = []
+    cursor8 = g.conn.execute("select * from budgetshas where uuid='"+str(uuid)+"';")
+    for result8 in cursor8:
+      result_dict = {
+      'Period_Start': result8['period_start'],
+      'Amount': result8['amount'],
+      'Duration': result8['duration'],
+      'Category': result8['category']
+      }
+      budgets_list.append(result_dict) 
+
+    return render_template('userIndex.html', incomes_list=incomes_list, purchases_list=purchases_list , budgets_list=budgets_list)
   else:
     return render_template("index.html")
 
@@ -68,7 +127,7 @@ def validateLogin():
         session['username'] = _username
         flash("Logged in successfully!", category='success')
         cursor.close()
-        return redirect('/index.html')
+        return redirect('/')
       else:
         flash("Wrong username or password!", category='error')
         cursor.close()
