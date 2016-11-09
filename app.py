@@ -197,7 +197,9 @@ def validatePurchase():
       flash("Purchase created!", category='success')
       cursor.close()
       return redirect('/')
+  return redirect('/')
   
+
 @app.route('/addIncome')
 def addIncome():
   if 'username' in session:
@@ -206,9 +208,25 @@ def addIncome():
     flash("Please sign in to have access to that page", category='error')
     return redirect('/SignIn')
 
-@app.route('/validateIncome')
+@app.route('/validateIncome',methods=['POST'])
 def validateIncome():
+  _date = str(request.form["date"])
+  _amt = str(request.form["amt"])
+  _sector = request.form["sector"]
+  _details = request.form["incomeDetails"]
+
+  cursor = g.conn.execute("select uuid from users where username='"+session['username']+"';")
+  for uuid_res in cursor:
+    g.conn.execute("insert into incomes_activities_earned_by(sum,date,sector,description) values("+_amt+",'"+_date+"','"+_sector+"','"+_details+"');")
+    counting = g.conn.execute("select count(iid) from incomes_activities_earned_by;")
+    for count in counting:
+      iid = str(count['count'])
+      g.conn.execute("insert into earns values("+str(uuid_res["uuid"])+","+iid+");")
+      flash("Income created!", category='success')
+      cursor.close()
+      return redirect('/')
   return redirect('/')
+
 
 @app.route('/addBudget')
 def addBudget():
@@ -218,10 +236,23 @@ def addBudget():
     flash("Please sign in to have access to that page", category='error')
     return redirect('/SignIn')
 
-@app.route('/validateBudget')
+@app.route('/validateBudget',methods=['POST'])
 def validateBudget():
+  _date = str(request.form["date"])
+  _amt = str(request.form["amt"])
+  _duration = request.form["duration"]
+  _category = request.form["category"]
+
+  cursor = g.conn.execute("select uuid from users where username='"+session['username']+"';")
+  for uuid_res in cursor:
+    uuid = str(uuid_res["uuid"])
+    g.conn.execute("insert into budgetshas(uuid,period_start,amount,duration,category) values("+uuid+",'"+_date+"',"+_amt+",'"+_duration+"','"+_category+"');")
+    flash("Income created!", category='success')
+    cursor.close()
+    return redirect('/')
   return redirect('/')
   
+
 if __name__ == "__main__":
   import click
 

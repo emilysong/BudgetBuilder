@@ -1,4 +1,4 @@
-{% extends "userIndex.html" %}
+{% extends "forms.html" %}
 {% block title %}Add Income | {{ super() }}{% endblock %}
 {% block current_page %}Add Income{% endblock %}
 
@@ -10,8 +10,8 @@
                 <input type="datetime" name="date" id="date" placeholder="YYYY-MM-DD" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="price">Income Amount</label>
-                <input type="number" name="price" id="price" class="form-control" placeholder="$" step="0.01" min="0.01" max="9999999999.00" required>
+                <label for="amt">Income Amount</label>
+                <input type="number" name="amt" id="amt" class="form-control" placeholder="$" step="0.01" min="0.01" max="9999999999.00" required>
             </div>
             <div class="form-group">
                 <label for="sector">Income Sector</label>
