@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="header">
             {% include "userNav.html" %}
         </div>
@@ -16,7 +16,7 @@
             {% include "flash.html" %}
         </div>
     </div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="content">
             <h4>USERNAME: {{username}}</h4>
         </div>
@@ -28,6 +28,7 @@
                     <th>Date</th> 
                     <th>Sector</th>
                     <th>Description</th>
+                    <th></th>
                 </tr>
                 {% for incomes_dict in incomes_list %}
                 <tr>
@@ -35,6 +36,7 @@
                     <td>{{incomes_dict['Date']}}</td>
                     <td>{{incomes_dict['Sector']}}</td>
                     <td>{{incomes_dict['Description']}}</td>
+                    <td><a href="{{ url_for('deleteIncome', iid=incomes_dict['iid']) }}">Delete</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -53,6 +55,7 @@
                     <th>Industry</th>
                     <th>Category</th>
                     <th>Item</th>
+                    <th></th>
                 </tr>
                 {% for purchases_dict in purchases_list %}
                 <tr>
@@ -64,6 +67,7 @@
                     <td>{{purchases_dict['Industry']}}</td>
                     <td>{{purchases_dict['Category']}}</td>
                     <td>{{purchases_dict['Item']}}</td>
+                    <td>Delete</td>
                 </tr>
                 {% endfor %}
             </table>
@@ -77,6 +81,7 @@
                     <th>Amount</th> 
                     <th>Duration</th>
                     <th>Category</th>
+                    <th></th>
                 </tr>
                 {% for budgets_dict in budgets_list %}
                 <tr>
@@ -84,6 +89,7 @@
                     <td>{{budgets_dict['Amount']}}</td>
                     <td>{{budgets_dict['Duration']}}</td>
                     <td>{{budgets_dict['Category']}}</td>
+                    <td>Delete</td>
                 </tr>
                 {% endfor %}
             </table>

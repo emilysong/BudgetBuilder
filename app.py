@@ -53,6 +53,7 @@ def index():
       cursor3 = g.conn.execute("select * from incomes_activities_earned_by where iid='"+str(iid)+"';")
       for result3 in cursor3:
         result_dict = {
+        'iid': str(iid),
         'Sum': result3['sum'],
         'Date': result3['date'],
         'Sector': result3['sector'],
@@ -227,6 +228,12 @@ def validateIncome():
       return redirect('/')
   return redirect('/')
 
+@app.route('/deleteIncome',methods=['GET'])
+def deleteIncome():
+  iid = request.args.get("iid")
+  g.conn.execute("delete from earns where iid="+iid+";")
+  g.conn.execute("delete from incomes_activities_earned_by where iid="+iid+";")
+  return redirect('/')
 
 @app.route('/addBudget')
 def addBudget():
