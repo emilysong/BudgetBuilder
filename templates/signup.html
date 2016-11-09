@@ -4,20 +4,23 @@
 
 {% block content %}
     <div class="col-lg-4 col-lg-offset-4 text-center">
-        <form class="form-signin">
+        <form class="form-signin"  action="/validateSignUp" method="POST">
             <label for="inputUsername" class="sr-only">Username</label>
-            <input type="username" name="inputUsername" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+            <input type="username" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
            
             <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
 
             <label for="inputAge" class="sr-only">Age</label>
-            <input type="age" name="inputAge" id="inputAge" class="form-control" placeholder="Age" required>
+            <input type="number" name="age" id="age" class="form-control" placeholder="Age" min="1" max="100" required>
 
-            <label for="inputGender" class="sr-only">Gender</label>
-            <input type="gender" name="inputGender" id="inputGender" class="form-control" placeholder="Gender" required>
+            <label for="gender" class="sr-only">Gender</label>
+            <select class="form-control" name="gender" required="required">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
             <br>
-            <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
         </form>
     </div>
 {% endblock %}
