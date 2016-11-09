@@ -1,16 +1,15 @@
 import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from sqlalchemy.ext.declarative import declarative_base
 from flask import Flask, request, render_template, g, redirect, Response
+
+from flask_wtf import Form
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
 DATABASEURI = "postgresql://sks2200:Databases2016**@w4111vm.eastus.cloudapp.azure.com/w4111"
 engine = create_engine(DATABASEURI)
-Base = declarative_base()
-Base.query = db_session.query_property()
 
 @app.before_request
 def before_request():
@@ -50,6 +49,19 @@ def showSignUp():
 @app.route('/SignIn')
 def showSignIn():
     return render_template('signin.html')
+
+@app.route('/validateLogin',methods=['POST'])
+def validateLogin():
+    print 'hi'
+    form = RequestForm(request.form)
+    print(form.username.data)
+    print(form.password.data)
+
+    # result = engine.execute("""SELECT * FROM USERS WHERE username="""+_username+""" AND password="""+_password+""";""");
+    # print result
+    # if(len(result[0]) > 0):
+    #   
+    return redirect('/SignIn')
 
 if __name__ == "__main__":
   import click

@@ -5,13 +5,14 @@
 {% block content %}
     <div class="col-lg-4 col-lg-offset-4 text-center">
         <form class="form-signin" action="/validateLogin" method="post">
-            <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input type="username" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
            
             <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
-            <br>
-            <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <br> 
+            <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit" value="validateLogin">Sign in</button>
     
         </form>
     </div>
