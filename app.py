@@ -162,6 +162,66 @@ def addPurchase():
     flash("Please sign in to have access to that page", category='error')
     return redirect('/SignIn')
 
+@app.route('/validatePurchase',methods=['POST'])
+def validatePurchase():
+  _date = str(request.form["date"])
+  _price = str(request.form["price"])
+  _name = request.form["name"]
+  _address = request.form["address"]
+  _phone = str(request.form["phone"])
+  _industry = request.form["industry"]
+  _details = request.form["itemDetails"]
+  _category = request.form.get("category")
+  cursor = g.conn.execute("select uuid from users where username='"+session['username']+"';")
+
+  for uuid_res in cursor:
+    bid_res = g.conn.execute("select distinct bid from purchases_businesses_made_from where name='"+_name+"';")
+    for result in bid_res:
+      bid = str(result['bid'])
+      g.conn.execute("insert into purchases_businesses_made_from(bid,price,date,name,phone_number,address,industry,category,item) values("+bid+","+_price+",'"+_date+"','"+_name+"',"+_phone+",'"+_address+"','"+_industry+"','"+_category+"','"+_details+"');")
+      counting = g.conn.execute("select count(pid) from purchases_businesses_made_from;")
+      for count in counting:
+        pid = str(count['count'] + 1)
+        g.conn.execute("insert into makes values("+str(uuid_res["uuid"])+","+pid+");")
+      flash("Purchase created!", category='success')
+      cursor.close()
+      return redirect('/')
+    bid_res = g.conn.execute("select count(distinct bid) from purchases_businesses_made_from;")
+    for bid_num in bid_res:
+      bid = str(1 + int(bid_num['count']))
+      g.conn.execute("insert into purchases_businesses_made_from(bid,price,date,name,phone_number,address,industry,category,item) values("+bid+","+_price+",'"+_date+"','"+_name+"',"+_phone+",'"+_address+"','"+_industry+"','"+_category+"','"+_details+"');")
+      counting = g.conn.execute("select count(pid) from purchases_businesses_made_from;")
+      for count in counting:
+        pid = str(count['count'] + 1)
+        g.conn.execute("insert into makes values("+str(uuid_res["uuid"])+","+pid+");")
+      flash("Purchase created!", category='success')
+      cursor.close()
+      return redirect('/')
+  
+@app.route('/addIncome')
+def addIncome():
+  if 'username' in session:
+    return render_template('/addIncome.html')
+  else:
+    flash("Please sign in to have access to that page", category='error')
+    return redirect('/SignIn')
+
+@app.route('/validateIncome')
+def validateIncome():
+  return redirect('/')
+
+@app.route('/addBudget')
+def addBudget():
+  if 'username' in session:
+    return render_template('/addBudget.html')
+  else:
+    flash("Please sign in to have access to that page", category='error')
+    return redirect('/SignIn')
+
+@app.route('/validateBudget')
+def validateBudget():
+  return redirect('/')
+  
 if __name__ == "__main__":
   import click
 
