@@ -1,7 +1,7 @@
 import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect, Response, flash
+from flask import Flask, request, render_template, g, redirect, Response, flash, session
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
@@ -49,7 +49,15 @@ def showSignUp():
 def showSignIn():
     return render_template('signin.html')
 
-@app.route('/')
+@app.route('/userIndex')
+def userIndex():
+    return render_template('userIndex.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user',None)
+    flash("Logged out successfully!", category='success')
+    return redirect('/')
 
 @app.route('/validateLogin',methods=['POST'])
 def validateLogin():
@@ -60,7 +68,7 @@ def validateLogin():
       if (_password == result['password']):
         flash("Logged in successfully!", category='success')
         cursor.close()
-        return redirect('/')
+        return redirect('/userIndex')
       else:
         flash("Wrong username or password!", category='error')
         cursor.close()
