@@ -99,7 +99,7 @@ def index():
       }
       budgets_list.append(result_dict) 
 
-    return render_template('userIndex.html', incomes_list=incomes_list, purchases_list=purchases_list , budgets_list=budgets_list)
+    return render_template('userIndex.html', username=session['username'], incomes_list=incomes_list, purchases_list=purchases_list , budgets_list=budgets_list)
   else:
     return render_template("index.html")
 
