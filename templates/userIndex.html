@@ -5,8 +5,13 @@
     <title>{% block title %}BudgetBuilder{% endblock %}</title>
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+     <style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
 </head>
- 
+
 <body>
     <div class="container">
         <div class="header">
@@ -20,28 +25,78 @@
       {% block content %}
       {% endblock %}
     </div>
+    <div class="container">
     <div class="content">
         <h4>Username: {{username}}</h4>
     </div>
     <div class="content">
         <h4>Incomes</h4>
-        {% for incomes_dict in incomes_list %}
-        <p>{{incomes_dict}}</p>
-        {% endfor %}
-    </div>
-    <div class="content">
-        <h4>Purchases</h4>
-        {% for purchases_dict in purchases_list %}
-        <p>{{purchases_dict}}</p>
-        {% endfor %}
-    </div>
-        <div class="content">
-        <h4>Budgets</h4>
-        {% for budgets_dict in budgets_list %}
-        <p>{{budgets_dict}}</p>
-        {% endfor %}
+        <table>
+            <tr>
+                <th>Sum</th>
+                <th>Date</th> 
+                <th>Sector</th>
+                <th>Description</th>
+            </tr>
+            {% for incomes_dict in incomes_list %}
+            <tr>
+                <td>{{incomes_dict['Sum']}}</td>
+                <td>{{incomes_dict['Date']}}</td>
+                <td>{{incomes_dict['Sector']}}</td>
+                <td>{{incomes_dict['Description']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 
+
+    <div class="content">
+        <h4>Purchases</h4>
+        <table>
+            <tr>
+                <th>Price</th>
+                <th>Date</th> 
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Industry</th>
+                <th>Category</th>
+                <th>Item</th>
+            </tr>
+            {% for purchases_dict in purchases_list %}
+            <tr>
+                <td>{{purchases_dict['Price']}}</td>
+                <td>{{purchases_dict['Date']}}</td>
+                <td>{{purchases_dict['Name']}}</td>
+                <td>{{purchases_dict['Phone_Number']}}</td>
+                <td>{{purchases_dict['Address']}}</td>
+                <td>{{purchases_dict['Industry']}}</td>
+                <td>{{purchases_dict['Category']}}</td>
+                <td>{{purchases_dict['Item']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="content">
+        <h4>Budgets</h4>
+        <table>
+            <tr>
+                <th>Period Start</th>
+                <th>Amount</th> 
+                <th>Duration</th>
+                <th>Category</th>
+            </tr>
+            {% for budgets_dict in budgets_list %}
+            <tr>
+                <td>{{budgets_dict['Period_Start']}}</td>
+                <td>{{budgets_dict['Amount']}}</td>
+                <td>{{budgets_dict['Duration']}}</td>
+                <td>{{budgets_dict['Category']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
 </body>
  
 </html>
