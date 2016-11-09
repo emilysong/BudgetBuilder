@@ -1,6 +1,7 @@
 import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
+from sqlalchemy.ext.declarative import declarative_base
 from flask import Flask, request, render_template, g, redirect, Response
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
@@ -8,12 +9,8 @@ app = Flask(__name__, template_folder=tmpl_dir)
 
 DATABASEURI = "postgresql://sks2200:Databases2016**@w4111vm.eastus.cloudapp.azure.com/w4111"
 engine = create_engine(DATABASEURI)
-engine.execute("""CREATE TABLE IF NOT EXISTS test (
-  id serial,
-  name text
-);""")
-engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
-
+Base = declarative_base()
+Base.query = db_session.query_property()
 
 @app.before_request
 def before_request():
