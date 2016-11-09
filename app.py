@@ -74,6 +74,7 @@ def index():
       cursor6 = g.conn.execute("select * from purchases_businesses_made_from where pid='"+str(pid)+"';")
       for result6 in cursor6:
         result_dict = {
+        'pid': pid,
         'Price': result6['price'],
         'Date': result6['date'],
         'Name': result6['name'],
@@ -93,6 +94,7 @@ def index():
     cursor8 = g.conn.execute("select * from budgetshas where uuid='"+str(uuid)+"';")
     for result8 in cursor8:
       result_dict = {
+      'bud_id': result8['bud_id'],
       'Period_Start': result8['period_start'],
       'Amount': result8['amount'],
       'Duration': result8['duration'],
@@ -162,6 +164,13 @@ def addPurchase():
   else:
     flash("Please sign in to have access to that page", category='error')
     return redirect('/SignIn')
+
+@app.route('/deletePurchase',methods=['GET'])
+def deletePurchase():
+  pid = request.args.get("pid")
+  g.conn.execute("delete from makes where pid="+pid+";")
+  g.conn.execute("delete from purchases_businesses_made_from where pid="+pid+";")
+  return redirect('/')
 
 @app.route('/validatePurchase',methods=['POST'])
 def validatePurchase():
@@ -242,6 +251,12 @@ def addBudget():
   else:
     flash("Please sign in to have access to that page", category='error')
     return redirect('/SignIn')
+
+@app.route('/deleteBudget',methods=['GET'])
+def deleteBudget():
+  bud_id = request.args.get("bud_id")
+  g.conn.execute("delete from budgetshas where bud_id="+but_id+";")
+  return redirect('/')
 
 @app.route('/validateBudget',methods=['POST'])
 def validateBudget():
