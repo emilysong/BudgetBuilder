@@ -39,7 +39,10 @@ def teardown_request(exception):
 
 @app.route('/')
 def index():
-  return render_template("index.html")
+  if 'username' in session:
+    return render_template('/userIndex.html')
+  else:
+    return render_template("index.html")
 
 @app.route('/SignUp')
 def showSignUp():
@@ -49,13 +52,9 @@ def showSignUp():
 def showSignIn():
     return render_template('signin.html')
 
-@app.route('/userIndex')
-def userIndex():
-    return render_template('userIndex.html')
-
 @app.route('/logout')
 def logout():
-    session.pop('user',None)
+    session.pop('username', None)
     flash("Logged out successfully!", category='success')
     return redirect('/')
 
@@ -66,9 +65,10 @@ def validateLogin():
     cursor = g.conn.execute("select password from users where username='"+_username+"';")
     for result in cursor:
       if (_password == result['password']):
+        session['username'] = _username
         flash("Logged in successfully!", category='success')
         cursor.close()
-        return redirect('/userIndex')
+        return redirect('/index.html')
       else:
         flash("Wrong username or password!", category='error')
         cursor.close()
@@ -95,6 +95,13 @@ def validateSignUp():
     cursor.close()
     return redirect('/SignIn')
 
+@app.route('/addPurchase')
+def addPurchase():
+  if 'username' in session:
+    return render_template('/addPurchase.html')
+  else:
+    flash("Please sign in to have access to that page", category='error')
+    return redirect('/SignIn')
 
 if __name__ == "__main__":
   import click
